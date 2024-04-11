@@ -18,7 +18,6 @@ public:
 
 private slots:
 
-
     void on_MainButtonGraphCalc_clicked();
 
 private:

@@ -2,6 +2,8 @@
 #define GRAPHCALCWINDOW_H
 
 #include <QMainWindow>
+#include <QPainter>
+#include <QLine>
 
 namespace Ui {
 class GraphCalcWindow;
@@ -15,8 +17,14 @@ public:
     explicit GraphCalcWindow(QWidget *parent = nullptr);
     ~GraphCalcWindow();
 
+protected:
+    void paintEvent(QPaintEvent *);
+    
 private slots:
-
+    void on_expandWin_clicked();
+    
+    void on_decraseWin_clicked();
+    
 private:
     Ui::GraphCalcWindow *ui;
 };
