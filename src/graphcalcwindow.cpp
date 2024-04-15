@@ -2,6 +2,9 @@
 #include "ui_graphcalcwindow.h"
 #include <iostream>
 #include <QStatusBar>
+#include <QApplication>
+#include <QScreen>
+#include <qDebug>
 
 using namespace std;
 
@@ -57,7 +60,6 @@ void GraphCalcWindow::paintEvent(QPaintEvent *)
             pen.setColor(Qt::black);
             painter.setPen(pen);
             painter.drawLine(l);
-            
             pen.setColor(Qt::lightGray);
             painter.setPen(pen);
             continue;
@@ -66,18 +68,15 @@ void GraphCalcWindow::paintEvent(QPaintEvent *)
         
     }
     
-    cout << "check " << start_y + ((length / h) / 2 + 1) * h;
     int h1 = h;
     for (int j = start_y; j <= start_y + length; j += h1) {
         int i = start_x, i1 = start_x + width;
         QPoint p1(i, j), p2(i1, j);
         QLine l(p1, p2);
-        cout << j << endl;
         if (j == start_y + length / 2) {
             pen.setColor(Qt::black);
             painter.setPen(pen);
             painter.drawLine(l);
-            
             pen.setColor(Qt::lightGray);
             painter.setPen(pen);
             continue;
@@ -105,10 +104,13 @@ void GraphCalcWindow::on_expandWin_clicked()
         return;
     }
     
+    /*int h = GraphCalcWindow.geometry().height();
+    qDebug() << h << ' ';*/
+        
     int width = 800;
     int length = 600;
     
-    if (global_w + add_w > width || global_l + add_l > length) {
+    if (global_w + add_w > width - 25 || global_l + add_l > length - 25) {
         statusBar() -> showMessage(tr("Can't expand window"), 2000);
         return;
     }
@@ -132,12 +134,12 @@ void GraphCalcWindow::on_decraseWin_clicked()
     int width = 800;
     int length = 600;
     
-    if (global_x + add_l > length || global_y + add_w > width) {
+    if (global_x + add_l > length - 25 || global_y + add_w > width - 25) {
         statusBar() -> showMessage(tr("Can't decrease window"), 2000);
         return;
     }
     
-    if (global_w - dec_w < 0 || global_l - dec_l < 0) {
+    if (global_w - dec_w < 25 || global_l - dec_l < 25) {
         statusBar() -> showMessage(tr("Can't decrease window"), 2000);
         return;
     }

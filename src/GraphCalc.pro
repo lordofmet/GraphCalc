@@ -9,15 +9,18 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    calcwindow.cpp \
     graphcalcwindow.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    calcwindow.h \
     graphcalcwindow.h \
     mainwindow.h
 
 FORMS += \
+    calcwindow.ui \
     graphcalcwindow.ui \
     mainwindow.ui
 

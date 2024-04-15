@@ -19,3 +19,9 @@ void MainWindow::on_MainButtonGraphCalc_clicked()
 }
 
 
+
+void MainWindow::on_MainButtonOther_clicked()
+{
+    calc.show();
+}
+

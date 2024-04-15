@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GraphCalcWindow</class>
- <widget class="QMainWindow" name="GraphCalcWindow">
+ <class>CalcWindow</class>
+ <widget class="QMainWindow" name="CalcWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,30 +14,50 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="expandWin">
+   <widget class="QPushButton" name="sin">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>0</y>
+      <x>0</x>
+      <y>360</y>
       <width>83</width>
       <height>29</height>
      </rect>
     </property>
     <property name="text">
-     <string>увеличить</string>
+     <string>sin</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="decraseWin">
+   <widget class="QPushButton" name="cos">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>30</y>
+      <x>0</x>
+      <y>390</y>
       <width>83</width>
       <height>29</height>
      </rect>
     </property>
     <property name="text">
-     <string>уменьшить</string>
+     <string>cos</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="input_str">
+    <property name="geometry">
+     <rect>
+      <x>32</x>
+      <y>280</y>
+      <width>731</width>
+      <height>28</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="ans_str">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>50</y>
+      <width>741</width>
+      <height>141</height>
+     </rect>
     </property>
    </widget>
   </widget>
