@@ -4,7 +4,11 @@
 #include <QMainWindow>
 #include <QString>
 #include <QDebug>
+#include <string>
 #include <QChar>
+#include <cmath>
+
+using namespace std;
 
 namespace Ui {
 class CalcWindow;
