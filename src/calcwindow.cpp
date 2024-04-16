@@ -1,5 +1,6 @@
 #include "calcwindow.h"
 #include "bigint.h"
+#include "math.h"
 #include "ui_calcwindow.h"
 
 #define ld long double
@@ -60,8 +61,7 @@ QString parseInput (QString text)
     if (n > 18) {
         return warn2;
     }
-    
-    //ld text_ld = qStrToLd(text);
+   
     
     return text;
     
@@ -71,8 +71,19 @@ void CalcWindow::on_sin_clicked()
 {
     QString text = ui -> input_str->text();
     text = parseInput(text);
+    QString warn1 = "Enter a valid number", warn2 = "Number is too large";
     
+    if (text == warn1) {
+        ui ->input_str->setText(warn1);
+    }
     
+    if (text == warn2) {
+        ui ->input_str->setText(warn2);
+    }
+    
+    ld text_ld = qStrToLd(text);
+    
+    text_ld = sin(text_ld);
     
     
 }

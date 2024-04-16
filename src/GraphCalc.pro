@@ -13,13 +13,15 @@ SOURCES += \
     calcwindow.cpp \
     graphcalcwindow.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    math.cpp
 
 HEADERS += \
     bigint.h \
     calcwindow.h \
     graphcalcwindow.h \
-    mainwindow.h
+    mainwindow.h \
+    math.h
 
 FORMS += \
     calcwindow.ui \
