@@ -24,18 +24,40 @@ ld qStrToLd (QString s)
     int n = s.size();
     ld x = 0;
     
+    bool flag = false;
+    int i_start = 0;
     for (int i = 0; i < n; i++) {
-        ld cur = str[i] - 48;
-        if (i > 0 && s[i - 1] == '.') {
-            cur /= 10;
-            x += cur;
-            continue;
+        if (str[i] == '.') {
+            flag = true;
+            i_start = i;
+            break;
         }
+        ld cur = str[i] - 48;
         x *= 10;
         x += cur;
     }
     
+    if (flag) {
+        
+        for (int i = i_start + 1; i < n; i++) {
+            ld cur = str[i] - 48;
+            cur /= pow(10, i - i_start);
+            x += cur;
+        }
+        
+    }
+    
     return x;
+}
+
+QString ldToQstr (ld x) {
+    
+    string s = to_string(x);
+    
+    QString qs = QString::fromStdString(s);
+    
+    return qs;
+    
 }
 
 QString parseInput (QString text)
@@ -74,21 +96,27 @@ void CalcWindow::on_sin_clicked()
     QString warn1 = "Enter a valid number", warn2 = "Number is too large";
     
     if (text == warn1) {
-        ui ->input_str->setText(warn1);
+        ui ->ans_str->setText(warn1);
     }
     
     if (text == warn2) {
-        ui ->input_str->setText(warn2);
+        ui ->ans_str->setText(warn2);
     }
     
     ld text_ld = qStrToLd(text);
     
-    text_ld = sin(text_ld);
+    text_ld = sinl(text_ld);
     
+    QString t = ldToQstr(text_ld);
+    qDebug() << t << "\n";
+    
+    QString text_qStr = ldToQstr(text_ld);
+    QString output = "sin(" + text + ") = " + text_qStr;
+    
+    ui->ans_str->setText(output);
     
 }
-
-
+    
 void CalcWindow::on_cos_clicked()
 {
     
