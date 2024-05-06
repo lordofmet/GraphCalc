@@ -78,6 +78,10 @@ QString parseNumberInput (QString text)
     QString warn1 = "Enter a valid number", warn2 = "Number is too large";
     
     for (int i = 0; i < n; i++) {
+        
+        if (text[i] == ' ')
+            continue;
+        
         QChar x = text[i];
         if (i == 0 && x == '-') {
             neg = true;
@@ -269,39 +273,254 @@ void CalcWindow::on_actg_clicked()
     ui->ans_str->setText(output);
 }
 
-/*void limParser(QString text) { //x^3 + 3x^5,  x,  5 => lim (x^3 + 3x^5)
-                               //                      x->5
+string format_str (string s) {
+    
+    int n = s.size();
+    
+    string s1 = "";
+    
+    for (int i = 0; i < n; i++) {
+        
+        if (s[i] == ' ') {
+            continue;
+        }
+        
+        if (i + 1 < n) {
+            
+            if (s[i] == '.' && s[i + 1] == '.') {
+                i += 1;
+                continue;
+            }
+            
+            if (isalpha(s[i]) && isalpha(s[i + 1])) {
+                i += 1;
+                continue;
+            }
+            
+        }
+        
+        /*if (!isdigit(s[i]) && !isalpha(s[i]) && s[i] != '.' && s[i] != ',' &&
+            s[i] != '('    && s[i] != ')'    && s[i] != '^' && s[i] != '+')
+        {
+            continue;
+        }*/
+        
+        s1 += s[i];
+        
+    }
+    
+    return s1;
+    
+}
+
+template <typename T> void print_vec (vector <T> &v) {
+    
+    int n = v.size();
+    
+    for (int i = 0; i < n; i++) {
+        
+        cout << "vec[" << i << "] = " << v[i] << "\n";
+        
+    }
+    
+    cout << "\n";
+    
+}
+
+vector < pair < vector<ld>, vector<char> > > limParser(QString text) { //x^3 + 3x^5,  x,  5 => lim (x^3 + 3x^5)
+                                                                       //                      x->5
     
     
     string s = text.toStdString();
     
+    s = format_str(s);
+    string s0 = s;
     int n = s.size();
     
-    vector<double> coef;
+    string s1 = "";
     
+    int z1 = 0;
+    for (int i = 0; i < n; i++) {
+        if (s[i] == ',') {
+            z1 = i + 1;
+            break;
+        }
+        s1 += s[i];
+    }
+    
+    string s2 = "";
+    int z2 = 0;
+    for (int i = z1; i < n; i++) {
+        if (s[i] == ',') {
+            z2 = i + 1;
+            break;
+        }
+        s2 += s[i];
+    }
+    
+    string s3 = "";
+    for (int i = z2; i < n; i++) {
+        s3 += s[i];
+    }
+    
+    s = s1;
+    n = s.size();
+    
+    cout << "s1 " << s1 << endl;
+    cout << "s " << s << endl;
+    cout << "s2 " << s2 << endl;
+    cout << "s3 " << s3 << endl;
+    
+    vector<long double> coef(n, 0); //4 * (var)
+    vector<char> params(n, 0); // x, y, ...
+    vector<char> opers(n, 0); //+, -
+    vector<long double> pows(n, 0); //^5, ...
+    
+    int cur = 0;
+    
+    bool flag = 0;
     for (int i = 0; i < n; i++) {
         
         if (s[i] == ',') {
             break;
         }
         
-        if (isdigit(s[i])) {
-            
-            
-            
+        if (i == 0 && s[i] != '-') {
+            opers[cur] = '+';
         }
+        
+        else if (s[i] == '+') {
+            opers[cur] = '+';
+            i++;
+        }
+        
+        else if (s[i] == '-') {
+            opers[cur] = '-';
+            i++;
+            //cout << opers[cur] << ' ' << i << "\n";
+        }
+        
+        string cur_num = "";
+        
+        while ((isdigit(s[i]) || s[i] == '.') && i < n) {
+            
+            cur_num += s[i];
+            i++;
+        }
+        
+        if (cur_num != "") {
+            QString t = QString::fromStdString(cur_num);
+            ld t1 = qStrToLd(t);
+            coef[cur] = t1;
+        }
+        
+        else {
+            coef[cur] = 1;
+        }
+        
+        if (i == n) {
+            params[cur] = 1;
+            pows[cur] = 1;
+            break;
+        }
+        
+        while (isalpha(s[i]) && i < n) {
+            
+            params[cur] = s[i];
+            pows[cur] = 1;
+            
+            //if (i + 3 < n && s[i + 1] == '^' && s[i + 2] == '(') {
+            if (s[i + 1] == '^') {
+                //i += 3;
+                i += 2;
+                string cur_pow = "";
+                while ((isdigit(s[i]) || s[i] == '.') && i < n) {
+                    cur_pow += s[i];
+                    if (!isdigit(s[i+1]) && i + 1 < n)
+                        break;
+                    i++;
+                }
+                
+                if (cur_pow != "") {
+                    QString t = QString::fromStdString(cur_pow);
+                    ld t1 = qStrToLd(t);
+                    pows[cur] = t1;
+                }
+                
+                else{
+                    pows[cur] = 1;
+                }
+                
+            }
+            
+            if (i >= n - 1) {
+                flag = true;
+                break;
+            }
+            
+            if (!isalpha(s[i+1]) && i + 1 < n){
+                break;
+            }
+            
+            i++;
+        }
+        
+        if (flag)
+            break;
+        
+        if (params[cur] == 0) {
+            params[cur] = 1;
+        }
+        
+        cur++;   
         
     }
     
+    pair < vector<ld>, vector<char> > res;
+    
+    res.first = coef;
+    res.second = params;
+    
+    pair < vector<ld>, vector<char> > res1;
+    
+    res1.first = pows;
+    res1.second = opers;
+    
+    vector < pair < vector<ld>, vector<char> > > res_fin;
+    
+    res_fin.push_back(res);
+    res_fin.push_back(res1);
+    
+    cout << "res\n";
+    for (int i = 0; i <= cur; i++) {
+        cout << (char)opers[i];
+        cout << coef[i];
+        cout << (char)params[i];
+        cout << "^" << pows[i] << "\n";
+    }
+    
+    return res_fin;
 }
-*/
+
 
 void CalcWindow::on_lim_clicked()
 {
     
     QString text = ui->input_str->text();
     
-    //limParser(text);
+    vector < pair < vector<ld>, vector<char> > > z = limParser(text);
+    pair < vector<ld>, vector<char> > t, t1;
+    t = z[0];
+    t1 = z[1];
+    
+    auto coef = t.first;
+    auto params = t.second;
+    auto pows = t1.first;
+    auto opers = t1.second;
+    
+    int cur = coef.size();
+    
+
     
 }
 
