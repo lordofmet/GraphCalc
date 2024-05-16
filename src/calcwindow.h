@@ -49,6 +49,10 @@ private slots:
     
     void on_abs_clicked();
     
+    void on_pushButton_clicked();
+    
+    void on_fact_clicked();
+    
 private:
     Ui::CalcWindow *ui;
 };

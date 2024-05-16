@@ -327,7 +327,19 @@ template <typename T> void print_vec (vector <T> &v) {
     
 }
 
-vector < pair < vector<ld>, vector<char> > > limParser(QString text) { //x^3 + 3x^5,  x,  5 => lim (x^3 + 3x^5)
+template <typename T> void print_vec_n (vector <T> &v, int n) {
+    
+    for (int i = 0; i < n; i++) {
+        
+        cout << "vec[" << i << "] = " << v[i] << "\n";
+        
+    }
+    
+    cout << "\n";
+    
+}
+
+ld limParser(QString text) { //x^3 + 3x^5,  x,  5 => lim (x^3 + 3x^5)
                                                                        //                      x->5
     
     
@@ -499,7 +511,26 @@ vector < pair < vector<ld>, vector<char> > > limParser(QString text) { //x^3 + 3
         cout << "^" << pows[i] << "\n";
     }
     
-    return res_fin;
+    char var = s2[0];
+    ld var_val = stold(s3);
+
+    ld ans = 0;
+    for (int i = 0; i <= cur; i++) {
+        if (opers[i] == '+') {
+            if (params[i] == var)
+                ans += coef[i] * powl(var_val, pows[i]);
+            else ans += coef[i];
+        }
+        else {
+            if (params[i] == var)
+                ans -= coef[i] * powl(var_val, pows[i]);
+            else ans -= coef[i];
+        }
+    }
+    
+    
+    
+    return ans;
 }
 
 
@@ -508,19 +539,10 @@ void CalcWindow::on_lim_clicked()
     
     QString text = ui->input_str->text();
     
-    vector < pair < vector<ld>, vector<char> > > z = limParser(text);
-    pair < vector<ld>, vector<char> > t, t1;
-    t = z[0];
-    t1 = z[1];
+    ld k = limParser(text);
+    QString kstr = ldToQstr(k);
+    ui->ans_str->setText(kstr);
     
-    auto coef = t.first;
-    auto params = t.second;
-    auto pows = t1.first;
-    auto opers = t1.second;
-    
-    int cur = coef.size();
-    
-
     
 }
 
@@ -557,6 +579,18 @@ void CalcWindow::on_abs_clicked()
     QString output = "| " + text + " | = " + text_qStr;
     
     ui->ans_str->setText(output);
+    
+}
+
+void CalcWindow::on_fact_clicked()
+{
+    
+    pair <long double, QString> p = get_parsed();
+    ld text_ld = p.first;
+    int text_int = (int) text_ld;
+    QString text = p.second;
+    
+    bigint res(1);
     
 }
 
